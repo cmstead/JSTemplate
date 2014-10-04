@@ -1,0 +1,7 @@
+var testObject;
+
+(function(){
+
+    testObject = {};
+
+})();

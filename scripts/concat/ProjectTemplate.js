@@ -2,4 +2,7 @@ var testObject;
 
 (function(){
 
+    
+    testObject = {};
+
 })();
