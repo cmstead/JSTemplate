@@ -1,7 +1,0 @@
-var testObject;
-
-(function(){
-
-    testObject = {};
-
-})();

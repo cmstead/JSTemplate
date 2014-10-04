@@ -1,7 +1,12 @@
-//Special files
+#Special files
 .idea
 .sass_cache
 
-//directories
+#directories
 node_modules/
 spec/coverage/
+
+#test run output
+JSTemplate.*
+
+#Put your ignore settings here

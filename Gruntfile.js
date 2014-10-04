@@ -8,15 +8,6 @@ module.exports = function(grunt){
                 }
             }
         },
-        concat: {
-            options: {
-                separator: ';'
-            },
-            dist: {
-                src: ['scripts/src/**/*.js'],
-                dest: 'scripts/concat/<%= pkg.name %>.js'
-            }
-        },
         jshint: {
             files: ["scripts/src/**"],
             options: {}
@@ -28,11 +19,13 @@ module.exports = function(grunt){
         },
         uglify: {
             options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+                banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n',
+                sourceMap: true,
+                sourceMapName: 'scripts/min/<%= pkg.name %>.map'
             },
             dist: {
                 files: {
-                    'scripts/min/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+                    'scripts/min/<%= pkg.name %>.min.js': ['./scripts/src/**/*.js']
                 }
             }
         },
@@ -54,7 +47,6 @@ module.exports = function(grunt){
     /* Load grunt task adapters */
 
     grunt.loadNpmTasks('grunt-contrib-compass');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -68,7 +60,7 @@ module.exports = function(grunt){
     grunt.registerTask('document', ['jsdoc'])
 
     grunt.registerTask('buildcss', ['compass']);
-    grunt.registerTask('buildjs', ['concat', 'uglify'])
+    grunt.registerTask('buildjs', ['uglify'])
     grunt.registerTask('build', ['buildcss', 'test', 'buildjs', 'document']);
 
     //Special build to handle work in progress experiments.
