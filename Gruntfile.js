@@ -1,6 +1,13 @@
 module.exports = function(grunt){
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        compass: {
+            dist: {
+                options: {
+                    config: 'config.rb'
+                }
+            }
+        },
         concat: {
             options: {
                 separator: ';'
@@ -31,7 +38,7 @@ module.exports = function(grunt){
         },
         jsdoc : {
             dist : {
-                src: ['src/*.js', 'test/*.js'],
+                src: ['./scripts/src/*.js', './spec/*.js'],
                 dest: 'doc'
             }
         },
@@ -44,6 +51,9 @@ module.exports = function(grunt){
         }
     });
 
+    /* Load grunt task adapters */
+
+    grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -51,7 +61,19 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-jsdoc');
     grunt.loadNpmTasks('grunt-karma');
 
-    grunt.registerTask('default', ['jshint', 'karma']);
-    grunt.registerTask('test', ['jshint', 'karma', 'watch']);
-    grunt.registerTask('build', ['jshint', 'karma', 'concat', 'uglify']);
+    /* Register composite grunt tasks */
+
+    grunt.registerTask('test', ['jshint', 'karma']);
+    grunt.registerTask('testwatcher', ['test', 'watch']);
+    grunt.registerTask('document', ['jsdoc'])
+
+    grunt.registerTask('buildcss', ['compass']);
+    grunt.registerTask('buildjs', ['concat', 'uglify'])
+    grunt.registerTask('build', ['buildcss', 'test', 'buildjs', 'document']);
+
+    //Special build to handle work in progress experiments.
+    //NOT FOR PRODUCTION. BYPASSESS LINTING AND TESTING. BUILDS NO DOCUMENTS
+    grunt.registerTask('buildrough', ['buildcss', 'buildjs'])
+
+    grunt.registerTask('default', ['testwatcher']);
 };
