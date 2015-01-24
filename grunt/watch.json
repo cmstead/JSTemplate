@@ -1,0 +1,7 @@
+{
+  "files": ["<%= jshint.files %>"],
+  "tasks": ["test"],
+  "options": {
+    "reload": true
+  }
+}

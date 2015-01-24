@@ -1,0 +1,6 @@
+{
+  "unit": {
+    "configFile": "./spec/karma.config.js"
+  }
+}
+
